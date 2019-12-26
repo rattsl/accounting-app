@@ -29,7 +29,7 @@
               <v-col>
               <v-data-table
                     :headers="headers"
-                    :items="desserts"
+                    :items="datas"
                     :items-per-page="5"
                     class="elevation-1"
                     ></v-data-table>
@@ -46,7 +46,7 @@
                         dark
                         v-on="on"
                         >
-                        Click Me
+                        記録する
                         </v-btn>
                     </template>
 
@@ -55,12 +55,34 @@
                         class="headline grey lighten-2"
                         primary-title
                         >
-                        Privacy Policy
+                        新規収支登録
                         </v-card-title>
-
-                        <v-card-text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </v-card-text>
+                        <v-container>
+                            <v-row>
+                                <v-col>
+                                    <v-select
+                                        v-model="select"
+                                        :items="items"
+                                        :error-messages="selectErrors"
+                                        label="Item"
+                                        required
+                                        @change="$v.select.$touch()"
+                                        @blur="$v.select.$touch()"
+                                        ></v-select>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="name"
+                                        :error-messages="nameErrors"
+                                        :counter="10"
+                                        label="Name"
+                                        required
+                                        @input="$v.name.$touch()"
+                                        @blur="$v.name.$touch()"
+                                        ></v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-container>
 
                         <v-divider></v-divider>
 
@@ -106,94 +128,20 @@ import calender from '../components/calender.vue'
                 text: '収入/支出',
                 align: 'left',
                 sortable: false,
-                value: 'name',
+                value: 'inout',
             },
-            { text: 'ジャンル', value: 'calories' },
-            { text: '日付', value: 'fat' },
-            { text: '金額', value: 'carbs' },
-            { text: 'メモ', value: 'protein' },
-            { text: '操作', value: 'iron' },
+            { text: '日時', value: 'date' },
+            { text: '金額', value: 'price' },
+            { text: 'メモ', value: 'memo' },
+            { text: '操作', value: 'action' },
             ],
-            desserts: [
+            datas: [
             {
-                name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: "400000000000000000000000000000000000000000000000",
-                iron: '1%',
-            },
-            {
-                name: 'Ice cream sandwich',
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                iron: '1%',
-            },
-            {
-                name: 'Eclair',
-                calories: 262,
-                fat: 16.0,
-                carbs: 23,
-                protein: 6.0,
-                iron: '7%',
-            },
-            {
-                name: 'Cupcake',
-                calories: 305,
-                fat: 3.7,
-                carbs: 67,
-                protein: 4.3,
-                iron: '8%',
-            },
-            {
-                name: 'Gingerbread',
-                calories: 356,
-                fat: 16.0,
-                carbs: 49,
-                protein: 3.9,
-                iron: '16%',
-            },
-            {
-                name: 'Jelly bean',
-                calories: 375,
-                fat: 0.0,
-                carbs: 94,
-                protein: 0.0,
-                iron: '0%',
-            },
-            {
-                name: 'Lollipop',
-                calories: 392,
-                fat: 0.2,
-                carbs: 98,
-                protein: 0,
-                iron: '2%',
-            },
-            {
-                name: 'Honeycomb',
-                calories: 408,
-                fat: 3.2,
-                carbs: 87,
-                protein: 6.5,
-                iron: '45%',
-            },
-            {
-                name: 'Donut',
-                calories: 452,
-                fat: 25.0,
-                carbs: 51,
-                protein: 4.9,
-                iron: '22%',
-            },
-            {
-                name: 'KitKat',
-                calories: 518,
-                fat: 26.0,
-                carbs: 65,
-                protein: 7,
-                iron: '6%',
+                inout: '収入',
+                date: "2019-12-15",
+                price: 6.0,
+                memo: 24,
+                action: '1%',
             },
             ],
             
