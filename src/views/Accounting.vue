@@ -64,21 +64,53 @@
                                         v-model="select"
                                         :items="items"
                                         :error-messages="selectErrors"
-                                        label="Item"
+                                        label="収支"
                                         required
-                                        @change="$v.select.$touch()"
-                                        @blur="$v.select.$touch()"
                                         ></v-select>
                                 </v-col>
                                 <v-col>
+                                    <v-menu
+                                    ref="menu"
+                                    v-model="menu"
+                                    :close-on-content-click="false"
+                                    :return-value.sync="date"
+                                    transition="scale-transition"
+                                    offset-y
+                                    min-width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
                                     <v-text-field
-                                        v-model="name"
+                                        v-model="date"
+                                        label="日時"
+                                        readonly
+                                        v-on="on"
+                                    ></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="date" no-title scrollable>
+                                    <v-spacer></v-spacer>
+                                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                                    </v-date-picker>
+                                </v-menu>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                        <v-text-field
+                                        v-model="price"
                                         :error-messages="nameErrors"
                                         :counter="10"
-                                        label="Name"
+                                        label="金額"
                                         required
-                                        @input="$v.name.$touch()"
-                                        @blur="$v.name.$touch()"
+                                        ></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field
+                                        v-model="memo"
+                                        :error-messages="nameErrors"
+                                        :counter="10"
+                                        label="一言メモ"
+                                        required
                                         ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -89,11 +121,18 @@
                         <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
-                            color="primary"
+                            color="gray"
                             text
                             @click="dialog = false"
                         >
-                            I accept
+                            キャンセル
+                        </v-btn>
+                        <v-btn
+                            color="primary"
+                            text
+                            @click="register"
+                        >
+                            登録
                         </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -122,26 +161,24 @@ import calender from '../components/calender.vue'
     name: 'Home',
     data: function() {
         return {
+            
             dialog: false,
+
             headers: [
-            {
-                text: '収入/支出',
-                align: 'left',
-                sortable: false,
-                value: 'inout',
-            },
+                {text: '収入/支出', align: 'left', sortable: false, value: 'inout'},
             { text: '日時', value: 'date' },
             { text: '金額', value: 'price' },
             { text: 'メモ', value: 'memo' },
             { text: '操作', value: 'action' },
             ],
-            datas: [
+            registers: [],
+            register: [
             {
-                inout: '収入',
-                date: "2019-12-15",
-                price: 6.0,
-                memo: 24,
-                action: '1%',
+                inout: '',
+                date: "",
+                price: "",
+                memo: "",
+                action: "",
             },
             ],
             
@@ -151,12 +188,18 @@ import calender from '../components/calender.vue'
         graph,
         calender
     },
+    created: function(){
+
+    },
     methods: {
          doLogout: function () {
             firebase.auth().signOut().then(() => {
             this.$router.push('/')
             })
-         }
+         },
+         doRegister: function(){
+            
+         },
     },
     props: {
       source: String,

@@ -27,6 +27,9 @@ export default {
           firebase.auth().createUserWithEmailAndPassword(this.username, this.password)
           .then(user => {
           alert('Create account: ', user.email)
+        //   firebase.database().ref("users/" + user.uid).set({
+
+        //   })
         })
           .catch(error => {
           alert(error.message)
